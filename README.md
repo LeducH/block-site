@@ -26,6 +26,8 @@ reddit.com
 
 See **Options** to configure.
 
+
+
   * [Website notes][1]
   * [vueIntegration][2]
   * [vueIntegration2][3]
