@@ -15,19 +15,22 @@ textarea.placeholder = [
 ].join("\n");
 
 save.addEventListener("click", () => {
-  const blocked = textarea.value.split("\n").map(s => s.trim()).filter(Boolean);
+  const blocked = textarea.value
+    .split("\n")
+    .map(s => s.trim())
+    .filter(Boolean);
 
   chrome.storage.local.set({ blocked });
 });
 
-checkbox.addEventListener("change", (event) => {
+checkbox.addEventListener("change", event => {
   const enabled = event.target.checked;
 
   chrome.storage.local.set({ enabled });
 });
 
 window.addEventListener("DOMContentLoaded", () => {
-  chrome.storage.local.get(["blocked", "enabled"], function (local) {
+  chrome.storage.local.get(["blocked", "enabled"], function(local) {
     const { blocked, enabled } = local;
     if (!Array.isArray(blocked)) {
       return;
@@ -44,3 +47,10 @@ window.addEventListener("DOMContentLoaded", () => {
     document.body.classList.add("ready");
   });
 });
+
+// var today = new Date().getHours();
+// if (today >= 7 && today <= 19) {
+//    document.body.style.background = "Red";
+// } else {
+//     document.body.style.background = "Blue";
+// }

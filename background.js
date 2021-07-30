@@ -2,8 +2,8 @@
 
 /* global chrome, URL */
 
-chrome.runtime.onInstalled.addListener(function () {
-  chrome.storage.local.get(["blocked", "enabled"], function (local) {
+chrome.runtime.onInstalled.addListener(function() {
+  chrome.storage.local.get(["blocked", "enabled"], function(local) {
     if (!Array.isArray(local.blocked)) {
       chrome.storage.local.set({ blocked: [] });
     }
@@ -14,7 +14,7 @@ chrome.runtime.onInstalled.addListener(function () {
   });
 });
 
-chrome.tabs.onUpdated.addListener(function (tabId, changeInfo) {
+chrome.tabs.onUpdated.addListener(function(tabId, changeInfo) {
   const url = changeInfo.pendingUrl || changeInfo.url;
   if (!url || !url.startsWith("http")) {
     return;
@@ -22,10 +22,15 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo) {
 
   const hostname = new URL(url).hostname;
 
-  chrome.storage.local.get(["blocked", "enabled"], function (local) {
+  chrome.storage.local.get(["blocked", "enabled"], function(local) {
     const { blocked, enabled } = local;
-    if (Array.isArray(blocked) && enabled && blocked.find(domain => hostname.includes(domain))) {
-      chrome.tabs.remove(tabId);
+    if (
+      Array.isArray(blocked) &&
+      enabled &&
+      blocked.find(domain => hostname.includes(domain))
+    ) {
+      // chrome.tabs.remove(tabId);
+      chrome.tabs.update(tabId, { url: "http://www.google.com" });
     }
   });
 });
